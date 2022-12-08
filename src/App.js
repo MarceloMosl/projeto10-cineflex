@@ -9,6 +9,7 @@ function App() {
     <GlobalStyle/>
     <Routes>
     <Route path="/" element={<Movies/>} />
+	<Route path="/filme/:id" element={<div>ola</div>} />
     </Routes>
     </BrowserRouter>
   );

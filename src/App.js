@@ -1,15 +1,22 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Movies from './components/moviesList';
+import Selected from './Pages/Selected';
+import styled from 'styled-components';
 
 
 function App() {
   return (
     <BrowserRouter>
     <GlobalStyle/>
+	<Head>
+		<Link to={"/"}>
+        <header>CINEFLEX</header></Link>
+        <h1>Selecione um filme</h1>
+    </Head>
     <Routes>
     <Route path="/" element={<Movies/>} />
-	<Route path="/filme/:id" element={<div>ola</div>} />
+	<Route path="/filme/:id" element={<Selected/>} />
     </Routes>
     </BrowserRouter>
   );
@@ -61,3 +68,30 @@ table {
 	border-spacing: 0;
 }
 `
+const Head = styled.div`
+display: flex;
+flex-direction: column;
+margin: auto;
+a{
+	text-decoration: none;
+}
+header{
+    height: 50px;
+    background-color: #C3CFD9;
+    color: #E8833A;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+}
+h1{
+    height: 80px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+    color: #293845;
+
+}`

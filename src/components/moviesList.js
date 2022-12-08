@@ -15,10 +15,6 @@ export default function Movies(){
 
     return (
         <>
-        <Head>
-        <header>CINEFLEX</header>
-        <h1>Selecione um filme</h1>
-        </Head>
 
         <MovieList>
             <div>
@@ -26,7 +22,6 @@ export default function Movies(){
             <Link id={b} to={`/filme/${movie[b].id}`}>
             <img src={movie[b].posterURL} alt="deu erro"></img>
             </Link>
-            
             )}
             </div>
         </MovieList>
@@ -40,6 +35,8 @@ export default function Movies(){
 }
 
 const MovieList = styled.div`
+background-color: gray;
+padding-top: 20px;
    div{
     display: flex;
     flex-wrap: wrap;
@@ -47,36 +44,12 @@ const MovieList = styled.div`
     gap: 10px;
 
 }
+a{
+    margin: auto;
+}
 
 img{
     width: 200px;
     margin: auto;
 }
-`
-const Head = styled.div`
-display: flex;
-flex-direction: column;
-margin: auto;
-header{
-    height: 50px;
-    background-color: #C3CFD9;
-    color: #E8833A;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 38px;
-}
-h1{
-    height: 80px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 38px;
-    color: #293845;
-
-}
-
-
 `

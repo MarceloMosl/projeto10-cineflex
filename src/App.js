@@ -3,9 +3,12 @@ import { createGlobalStyle } from 'styled-components';
 import Movies from './components/moviesList';
 import Selected from './Pages/Selected';
 import styled from 'styled-components';
+import Seats from './Pages/Seats';
+import React from 'react';
 
 
 function App() {
+    const [seatsAvailable, setSeatsAvailable] = React.useState(undefined)
   return (
     <BrowserRouter>
     <GlobalStyle/>
@@ -16,7 +19,8 @@ function App() {
     </Head>
     <Routes>
     <Route path="/" element={<Movies/>} />
-	<Route path="/filme/:id" element={<Selected/>} />
+	<Route path="/filme/:id" element={<Selected setSeatsAvailable={setSeatsAvailable}/>} />
+    <Route path="/seats/:idSeats" element={<Seats seatsAvailable={seatsAvailable}/>} />
     </Routes>
     </BrowserRouter>
   );

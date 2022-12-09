@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
 
-export default function Selected() {
+export default function Selected({setSeatsAvailable}) {
   const { id } = useParams();
   const [sessions, setSessions] = React.useState(undefined);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const promise = axios.get(
@@ -15,6 +16,16 @@ export default function Selected() {
     promise.then((res) => setSessions(res.data));
     promise.catch((err) => console.log(err.data.response));
   }, []);
+
+  function mostra(a){
+    console.log(a.id)
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${a.id}/seats`)
+    promise.then(res => {setSeatsAvailable(res.data)
+      navigate(`/seats/${a.id}`)
+    })
+    promise.catch(err => console.log(err.data.response))
+
+  }
 
   if(sessions === undefined){return <>Carregando...</>}
 
@@ -25,7 +36,7 @@ export default function Selected() {
         <Times>
         {sessions.days[b].weekday} - {sessions.days[b].date}
         <div>
-        {sessions.days[b].showtimes.map((a,index) => <button>{sessions.days[b].showtimes[index].name}</button>)}
+        {sessions.days[b].showtimes.map((OBJ,index) => <button onClick={ () => mostra(OBJ)}>{sessions.days[b].showtimes[index].name}</button>)}
         </div>
         </Times>)}
     </div>

@@ -20,7 +20,8 @@ export default function Selected({setSeatsAvailable}) {
   function mostra(a){
     console.log(a.id)
     const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${a.id}/seats`)
-    promise.then(res => {setSeatsAvailable(res.data)
+    promise.then(res => {
+      setSeatsAvailable(res.data)
       navigate(`/seats/${a.id}`)
     })
     promise.catch(err => console.log(err.data.response))

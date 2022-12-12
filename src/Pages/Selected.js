@@ -40,10 +40,10 @@ export default function Selected({setSeatsAvailable, setDate, setTime, movieSele
 
     <div>
         {sessions.days.map((a,b) =>
-        <Times key={b}>
+        <Times data-test="movie-day" key={b}>
         {sessions.days[b].weekday} - {sessions.days[b].date}
         <div>
-        {sessions.days[b].showtimes.map((OBJ,index) =><button 
+        {sessions.days[b].showtimes.map((OBJ,index) =><button data-test="showtime"
         onClick={() => {
           mostra(OBJ) 
           setDate(sessions.days[b].weekday)
@@ -55,7 +55,7 @@ export default function Selected({setSeatsAvailable, setDate, setTime, movieSele
         </div>
         </Times>)}
     </div>
-    <Footer>
+    <Footer data-test="footer">
         <img src={movieSelected.posterURL}></img>
         <p>{movieSelected.title}</p>
 

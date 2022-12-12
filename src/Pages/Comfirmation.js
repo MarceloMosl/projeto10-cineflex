@@ -29,21 +29,21 @@ export default function Comfirmation({
 
 
 
-      <MovieSession>
+      <MovieSession data-test="movie-info">
         <h1>Filme e Sessão</h1>
         <p>{movieSelected.title}</p>
         <p>{date} {time}</p>
       </MovieSession>
-      <Tickets>
+      <Tickets data-test="seats-info">
         <h1>Ingressos</h1>
         {seatsNumber.map((a) => <p key={a} >Assento {a}</p>)}
       </Tickets>
-      <UserInfo>
+      <UserInfo data-test="client-info">
         <h1>Comprador</h1>
         <p>Nome: {name}</p>
         <p>CPF: {cpf}</p>
       </UserInfo>
-      <HomeSick onClick={() => {
+      <HomeSick data-test="book-seat-btn" onClick={() => {
         navigate("/")
         clear()
         }}>Voltar Para Holme</HomeSick>
@@ -122,7 +122,7 @@ const Head = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 38px;
-    color: #293845;
+    color: Green;
     margin-top: 50px;
   }
 `;

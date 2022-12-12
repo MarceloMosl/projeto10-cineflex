@@ -28,7 +28,7 @@ export default function Movies({setMovieSelected, clear}){
             <div>
             {movie.map((a,b) =>  
             <Link id={b} to={`/sessoes/${a.id}`}>
-            <img src={movie[b].posterURL} alt="deu erro" onClick={() => setMovieSelected(movie[b])}></img>
+            <img data-test="movie" src={movie[b].posterURL} alt="deu erro" onClick={() => setMovieSelected(movie[b])}></img>
             </Link>
             )}
             </div>

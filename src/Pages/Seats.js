@@ -54,13 +54,14 @@ export default function Seats({
                 onClick={() => mostraAi(a, b)}
                 key={b}
                 verific={ids.includes(a.id)}
+                data-test="seat"
               >
                 {a.name}
               </Disponivel>
             );
           } else {
             return (
-              <Indisponivel disabled={true} key={b}>
+              <Indisponivel onClick={() => alert("Assento indisponivel")} key={b} data-test="seat">
                 {a.name}
               </Indisponivel>
             );
@@ -91,6 +92,7 @@ export default function Seats({
             type="text"
             placeholder="Digite seu nome..."
             required
+            data-test="client-name"
           ></input>
         </label>
         <label>
@@ -100,14 +102,15 @@ export default function Seats({
             type="number"
             placeholder="Digite seu CPF..."
             required
+            data-test="client-cpf"
           ></input>
         </label>
-        <button disabled={ids.length == 0} type="submit">
+        <button data-test="book-seat-btn" disabled={ids.length == 0} type="submit">
           Reservar Assento(s)
         </button>
       </Form>
 
-      <Footer>
+      <Footer data-test="footer">
         <img src={movieSelected.posterURL}></img>
         <div>
           {movieSelected.title}

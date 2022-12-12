@@ -48,7 +48,7 @@ function App() {
           }
         />
         <Route
-          path="/seats/:idSeats"
+          path="/assentos/:idSeats"
           element={
             <Seats
               seatsAvailable={seatsAvailable}

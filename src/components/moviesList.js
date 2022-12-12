@@ -2,12 +2,14 @@ import React, { useEffect } from "react"
 import styled from "styled-components"
 import axios from "axios"
 import { Link } from "react-router-dom"
-export default function Movies(){
+export default function Movies({setMovieSelected}){
     const [movie, setMovie] =  React.useState([])
 
     useEffect(() => {
      const promise = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies")
-     promise.then((a) => setMovie(a.data))
+     promise.then((a) => {
+        setMovie(a.data)
+    })
      promise.catch((res) => alert(res.data.response))   
         
     },[])
@@ -20,7 +22,7 @@ export default function Movies(){
             <div>
             {movie.map((a,b) =>  
             <Link id={b} to={`/filme/${movie[b].id}`}>
-            <img src={movie[b].posterURL} alt="deu erro"></img>
+            <img src={movie[b].posterURL} alt="deu erro" onClick={() => setMovieSelected(movie[b].title)}></img>
             </Link>
             )}
             </div>

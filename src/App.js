@@ -1,27 +1,78 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
-import Movies from './components/moviesList';
-import Selected from './Pages/Selected';
-import styled from 'styled-components';
-import Seats from './Pages/Seats';
-import React from 'react';
-
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
+import Movies from "./components/moviesList";
+import Selected from "./Pages/Selected";
+import styled from "styled-components";
+import Seats from "./Pages/Seats";
+import React from "react";
+import Comfirmation from "./Pages/Comfirmation";
 
 function App() {
-    const [seatsAvailable, setSeatsAvailable] = React.useState(undefined)
+  const [seatsAvailable, setSeatsAvailable] = React.useState(undefined);
+  const [ids, setIds] = React.useState([]);
+  const [name, setNameBuyer] = React.useState("");
+  const [cpf, setCPFBuyer] = React.useState("");
+  const [movieSelected, setMovieSelected] = React.useState("")
+  const [date, setDate] = React.useState("")
+  const [time, setTime] = React.useState("")
+  const [seatsNumber, setseatsNumber] = React.useState([]);
+
+  function clear(){
+    setSeatsAvailable(undefined)
+    setIds([])
+    setNameBuyer("")
+    setCPFBuyer("")
+    setMovieSelected("")
+    setDate("")
+    setTime("")
+    setseatsNumber([])
+  }
+
+
   return (
     <BrowserRouter>
-    <GlobalStyle/>
-	<Head>
-		<Link to={"/"}>
-        <header>CINEFLEX</header></Link>
+      <GlobalStyle />
+      <Head>
+        <Link to={"/"}>
+          <header onClick={clear}>CINEFLEX</header>
+        </Link>
         <h1>Selecione um filme</h1>
-    </Head>
-    <Routes>
-    <Route path="/" element={<Movies/>} />
-	<Route path="/filme/:id" element={<Selected setSeatsAvailable={setSeatsAvailable}/>} />
-    <Route path="/seats/:idSeats" element={<Seats seatsAvailable={seatsAvailable}/>} />
-    </Routes>
+      </Head>
+      <Routes>
+        <Route path="/" element={<Movies setMovieSelected={setMovieSelected}/>} />
+        <Route
+          path="/filme/:id"
+          element={<Selected setSeatsAvailable={setSeatsAvailable} 
+          setDate={setDate}
+          setTime={setTime}
+          />}
+        />
+        <Route
+          path="/seats/:idSeats"
+          element={
+            <Seats
+              seatsAvailable={seatsAvailable}
+              ids={ids}
+              setIds={setIds}
+              setNameBuyer={setNameBuyer}
+              setCPFBuyer={setCPFBuyer}
+              name={name}
+              cpf={cpf}
+              seatsNumber={seatsNumber}
+              setseatsNumber={setseatsNumber}
+            />
+          }
+        />
+        <Route path="/finalizar/" element={<Comfirmation
+        name={name}
+        cpf={cpf}
+        seatsNumber={seatsNumber}
+        movieSelected={movieSelected}
+        date={date}
+        time={time}
+        clear={clear}
+        />} />
+      </Routes>
     </BrowserRouter>
   );
 }
@@ -71,25 +122,25 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-`
+`;
 const Head = styled.div`
-display: flex;
-flex-direction: column;
-margin: auto;
-a{
-	text-decoration: none;
-}
-header{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  a {
+    text-decoration: none;
+  }
+  header {
     height: 50px;
-    background-color: #C3CFD9;
-    color: #E8833A;
+    background-color: #c3cfd9;
+    color: #e8833a;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 38px;
-}
-h1{
+  }
+  h1 {
     height: 80px;
     text-align: center;
     display: flex;
@@ -97,5 +148,5 @@ h1{
     align-items: center;
     font-size: 38px;
     color: #293845;
-
-}`
+  }
+`;

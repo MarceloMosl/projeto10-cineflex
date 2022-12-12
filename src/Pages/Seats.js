@@ -1,12 +1,28 @@
+import axios from "axios";
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-export default function Seats({ seatsAvailable }) {
-  const [verify, setVerify] = React.useState([]);
+export default function Seats({ seatsAvailable, ids, setIds, setNameBuyer, setCPFBuyer, cpf, name, setseatsNumber, seatsNumber }) {
+  const navigate = useNavigate()
+
 
   function mostraAi(value) {
-    setVerify([...verify, value.id]);
+    setIds([...ids, value.id]);
+    setseatsNumber([...seatsNumber, value.name]);
   }
+
+  function submitSeats(a) {
+    a.preventDefault()
+
+    const URL = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
+    const obj = {ids, name, cpf}
+    const promise = axios.post(URL, obj)
+    promise.then((res) => navigate(`/finalizar/`))
+    promise.catch((err) => console.log(err.response.data) )
+  }
+
+
 
   if (seatsAvailable === undefined) return <>Carregando...</>;
   return (
@@ -17,17 +33,17 @@ export default function Seats({ seatsAvailable }) {
             return (
               <Disponivel
                 onClick={() => mostraAi(a, b)}
-                id={b}
-                verific={verify.includes(a.id)}
+                key={b}
+                verific={ids.includes(a.id)}
               >
-                {" "}
+    
                 {a.name}
               </Disponivel>
             );
           } else {
             return (
-              <Indisponivel disabled={true} id={b}>
-                {" "}
+              <Indisponivel disabled={true} key={b}>
+    
                 {a.name}
               </Indisponivel>
             );
@@ -50,18 +66,16 @@ export default function Seats({ seatsAvailable }) {
         </div>
       </Dispo>
 
-      <Form>
+      <Form onSubmit={submitSeats}>
         <label>
-          {" "}
           Nome do Comprador:
-          <input type="text" placeholder="Digite seu nome..." required></input>
+          <input onChange={(e) => setNameBuyer(e.target.value)}  type="text" placeholder="Digite seu nome..." required></input>
         </label>
         <label>
-          {" "}
           CPF do Comprador:
-          <input type="number" placeholder="Digite seu CPF..." required></input>
+          <input onChange={(e) => setCPFBuyer(e.target.value)}  type="number" placeholder="Digite seu CPF..." required></input>
         </label>
-        <button disabled={verify.length == 0} type="submit">
+        <button disabled={ids.length == 0} type="submit">
           Reservar Assento(s)
         </button>
       </Form>

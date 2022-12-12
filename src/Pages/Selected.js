@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
+import Movies from "../components/moviesList";
 
-export default function Selected({setSeatsAvailable}) {
+export default function Selected({setSeatsAvailable, setDate, setTime}) {
   const { id } = useParams();
   const [sessions, setSessions] = React.useState(undefined);
   const navigate = useNavigate()
@@ -18,7 +19,6 @@ export default function Selected({setSeatsAvailable}) {
   }, []);
 
   function mostra(a){
-    console.log(a.id)
     const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${a.id}/seats`)
     promise.then(res => {
       setSeatsAvailable(res.data)
@@ -34,10 +34,18 @@ export default function Selected({setSeatsAvailable}) {
   <>
     <div>
         {sessions.days.map((a,b) =>
-        <Times>
+        <Times key={b}>
         {sessions.days[b].weekday} - {sessions.days[b].date}
         <div>
-        {sessions.days[b].showtimes.map((OBJ,index) => <button onClick={ () => mostra(OBJ)}>{sessions.days[b].showtimes[index].name}</button>)}
+        {sessions.days[b].showtimes.map((OBJ,index) =><button 
+        onClick={() => {
+          mostra(OBJ) 
+          setDate(sessions.days[b].weekday)
+          setTime(sessions.days[b].date)
+        }}
+        >
+          {sessions.days[b].showtimes[index].name}
+        </button>)}
         </div>
         </Times>)}
     </div>
@@ -64,6 +72,7 @@ const Times = styled.div`
         border: none;
         background: #E8833A;
         border-radius: 3px;
+        cursor: pointer;
 
     }
 `

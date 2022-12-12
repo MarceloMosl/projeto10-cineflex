@@ -1,5 +1,5 @@
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Comfirmation({
@@ -19,9 +19,19 @@ export default function Comfirmation({
 
   return (
     <>
+      <Head>
+        <Link to={"/"}>
+          <header onClick={clear}>CINEFLEX</header>
+        </Link>
+        <h1>Pedido feito com sucesso!</h1>
+    </Head>
+
+
+
+
       <MovieSession>
         <h1>Filme e Sessão</h1>
-        <p>{movieSelected}</p>
+        <p>{movieSelected.title}</p>
         <p>{date} {time}</p>
       </MovieSession>
       <Tickets>
@@ -83,4 +93,36 @@ const HomeSick = styled.button`
   background-color: #e8833a;
   border: none;
   color: white;
+`;
+const Head = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  a {
+    text-decoration: none;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+  header {
+    height: 50px;
+    background-color: #c3cfd9;
+    color: #e8833a;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+  }
+  h1 {
+    height: 80px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+    color: #293845;
+    margin-top: 50px;
+  }
 `;

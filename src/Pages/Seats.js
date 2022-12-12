@@ -1,11 +1,23 @@
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-export default function Seats({ seatsAvailable, ids, setIds, setNameBuyer, setCPFBuyer, cpf, name, setseatsNumber, seatsNumber }) {
-  const navigate = useNavigate()
-
+export default function Seats({
+  movieSelected,
+  seatsAvailable,
+  ids,
+  setIds,
+  setNameBuyer,
+  setCPFBuyer,
+  cpf,
+  name,
+  setseatsNumber,
+  seatsNumber,
+  time,
+  date, clear
+}) {
+  const navigate = useNavigate();
 
   function mostraAi(value) {
     setIds([...ids, value.id]);
@@ -13,20 +25,27 @@ export default function Seats({ seatsAvailable, ids, setIds, setNameBuyer, setCP
   }
 
   function submitSeats(a) {
-    a.preventDefault()
+    a.preventDefault();
 
-    const URL = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
-    const obj = {ids, name, cpf}
-    const promise = axios.post(URL, obj)
-    promise.then((res) => navigate(`/finalizar/`))
-    promise.catch((err) => console.log(err.response.data) )
+    const URL =
+      "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many";
+    const obj = { ids, name, cpf };
+    const promise = axios.post(URL, obj);
+    promise.then((res) => navigate(`/sucesso/`));
+    promise.catch((err) => console.log(err.response.data));
   }
-
-
 
   if (seatsAvailable === undefined) return <>Carregando...</>;
   return (
     <>
+      <Head>
+        <Link to={"/"}>
+          <header onClick={clear}>CINEFLEX</header>
+        </Link>
+        <h1>Selecione o(s) assento(s)</h1>
+    </Head>
+
+
       <Grid>
         {seatsAvailable.seats.map((a, b) => {
           if (a.isAvailable === true) {
@@ -36,14 +55,12 @@ export default function Seats({ seatsAvailable, ids, setIds, setNameBuyer, setCP
                 key={b}
                 verific={ids.includes(a.id)}
               >
-    
                 {a.name}
               </Disponivel>
             );
           } else {
             return (
               <Indisponivel disabled={true} key={b}>
-    
                 {a.name}
               </Indisponivel>
             );
@@ -69,16 +86,34 @@ export default function Seats({ seatsAvailable, ids, setIds, setNameBuyer, setCP
       <Form onSubmit={submitSeats}>
         <label>
           Nome do Comprador:
-          <input onChange={(e) => setNameBuyer(e.target.value)}  type="text" placeholder="Digite seu nome..." required></input>
+          <input
+            onChange={(e) => setNameBuyer(e.target.value)}
+            type="text"
+            placeholder="Digite seu nome..."
+            required
+          ></input>
         </label>
         <label>
           CPF do Comprador:
-          <input onChange={(e) => setCPFBuyer(e.target.value)}  type="number" placeholder="Digite seu CPF..." required></input>
+          <input
+            onChange={(e) => setCPFBuyer(e.target.value)}
+            type="number"
+            placeholder="Digite seu CPF..."
+            required
+          ></input>
         </label>
         <button disabled={ids.length == 0} type="submit">
           Reservar Assento(s)
         </button>
       </Form>
+
+      <Footer>
+        <img src={movieSelected.posterURL}></img>
+        <div>
+          {movieSelected.title}
+        <p>{date} {time}</p>
+        </div>
+      </Footer>
     </>
   );
 }
@@ -147,5 +182,50 @@ const Form = styled.form`
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    margin-bottom: 50px;
+  }
+`;
+const Footer = styled.div`
+  position: sticky;
+  display: flex;
+  align-items: center;
+  font-size: 26px;
+  bottom: 0;
+  background-color: #9eadba;
+  img {
+    padding: 20px;
+    width: 50px;
+  }
+`;
+const Head = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  a {
+    text-decoration: none;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+  header {
+    height: 50px;
+    background-color: #c3cfd9;
+    color: #e8833a;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+  }
+  h1 {
+    height: 80px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+    color: #293845;
+    margin-top: 50px;
   }
 `;

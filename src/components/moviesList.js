@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import styled from "styled-components"
 import axios from "axios"
 import { Link } from "react-router-dom"
-export default function Movies({setMovieSelected}){
+export default function Movies({setMovieSelected, clear}){
     const [movie, setMovie] =  React.useState([])
 
     useEffect(() => {
@@ -17,12 +17,18 @@ export default function Movies({setMovieSelected}){
 
     return (
         <>
+        <Head>
+        <Link to={"/"}>
+          <header onClick={clear}>CINEFLEX</header>
+        </Link>
+        <h1>Selecione um filme</h1>
+        </Head>
 
         <MovieList>
             <div>
             {movie.map((a,b) =>  
-            <Link id={b} to={`/filme/${movie[b].id}`}>
-            <img src={movie[b].posterURL} alt="deu erro" onClick={() => setMovieSelected(movie[b].title)}></img>
+            <Link id={b} to={`/sessoes/${a.id}`}>
+            <img src={movie[b].posterURL} alt="deu erro" onClick={() => setMovieSelected(movie[b])}></img>
             </Link>
             )}
             </div>
@@ -37,7 +43,6 @@ export default function Movies({setMovieSelected}){
 }
 
 const MovieList = styled.div`
-background-color: gray;
 padding-top: 20px;
    div{
     display: flex;
@@ -55,3 +60,35 @@ img{
     margin: auto;
 }
 `
+const Head = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  a {
+    text-decoration: none;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+  header {
+    height: 50px;
+    background-color: #c3cfd9;
+    color: #e8833a;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+  }
+  h1 {
+    height: 80px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+    color: #293845;
+    margin-top: 50px;
+  }
+`;

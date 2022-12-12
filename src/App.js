@@ -1,8 +1,7 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Movies from "./components/moviesList";
 import Selected from "./Pages/Selected";
-import styled from "styled-components";
 import Seats from "./Pages/Seats";
 import React from "react";
 import Comfirmation from "./Pages/Comfirmation";
@@ -12,40 +11,41 @@ function App() {
   const [ids, setIds] = React.useState([]);
   const [name, setNameBuyer] = React.useState("");
   const [cpf, setCPFBuyer] = React.useState("");
-  const [movieSelected, setMovieSelected] = React.useState("")
-  const [date, setDate] = React.useState("")
-  const [time, setTime] = React.useState("")
+  const [movieSelected, setMovieSelected] = React.useState({});
+  const [date, setDate] = React.useState("");
+  const [time, setTime] = React.useState("");
   const [seatsNumber, setseatsNumber] = React.useState([]);
 
-  function clear(){
-    setSeatsAvailable(undefined)
-    setIds([])
-    setNameBuyer("")
-    setCPFBuyer("")
-    setMovieSelected("")
-    setDate("")
-    setTime("")
-    setseatsNumber([])
+  function clear() {
+    setSeatsAvailable(undefined);
+    setIds([]);
+    setNameBuyer("");
+    setCPFBuyer("");
+    setMovieSelected({});
+    setDate("");
+    setTime("");
+    setseatsNumber([]);
   }
-
 
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Head>
-        <Link to={"/"}>
-          <header onClick={clear}>CINEFLEX</header>
-        </Link>
-        <h1>Selecione um filme</h1>
-      </Head>
       <Routes>
-        <Route path="/" element={<Movies setMovieSelected={setMovieSelected}/>} />
         <Route
-          path="/filme/:id"
-          element={<Selected setSeatsAvailable={setSeatsAvailable} 
-          setDate={setDate}
-          setTime={setTime}
-          />}
+          path="/"
+          element={<Movies setMovieSelected={setMovieSelected} clear={clear}/>}
+        />
+        <Route
+          path="/sessoes/:idFilme"
+          element={
+            <Selected
+              setSeatsAvailable={setSeatsAvailable}
+              setDate={setDate}
+              setTime={setTime}
+              movieSelected={movieSelected}
+              clear={clear}
+            />
+          }
         />
         <Route
           path="/seats/:idSeats"
@@ -60,18 +60,27 @@ function App() {
               cpf={cpf}
               seatsNumber={seatsNumber}
               setseatsNumber={setseatsNumber}
+              movieSelected={movieSelected}
+              date={date}
+              time={time}
+              clear={clear}
             />
           }
         />
-        <Route path="/finalizar/" element={<Comfirmation
-        name={name}
-        cpf={cpf}
-        seatsNumber={seatsNumber}
-        movieSelected={movieSelected}
-        date={date}
-        time={time}
-        clear={clear}
-        />} />
+        <Route
+          path="/sucesso/"
+          element={
+            <Comfirmation
+              name={name}
+              cpf={cpf}
+              seatsNumber={seatsNumber}
+              movieSelected={movieSelected}
+              date={date}
+              time={time}
+              clear={clear}
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
@@ -98,6 +107,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+    font-family: 'Roboto';
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -122,31 +132,4 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-`;
-const Head = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  a {
-    text-decoration: none;
-  }
-  header {
-    height: 50px;
-    background-color: #c3cfd9;
-    color: #e8833a;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 38px;
-  }
-  h1 {
-    height: 80px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 38px;
-    color: #293845;
-  }
 `;
